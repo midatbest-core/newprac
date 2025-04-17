@@ -1,0 +1,43 @@
+#include <stdio.h>
+
+#define MAX_SIZE 100 // Define a maximum size for the array
+
+int main() {
+    int arr[MAX_SIZE]; // Declare an array to store elements
+    int n, i, j, current; // Declare variables for array size, loop counters, and the current element being inserted
+
+    printf("Enter the number of elements: ");
+    scanf("%d", &n);
+
+    if (n <= 0 || n > MAX_SIZE) {
+        printf("Invalid number of elements. Please enter a value between 1 and %d.\n", MAX_SIZE);
+        return 1; // Indicate an error
+    }
+
+    printf("Enter the elements:\n");
+    for (i = 0; i < n; i++) {
+        scanf("%d", &arr[i]);
+    }
+
+    // Insertion Sort Algorithm
+    for (i = 1; i < n; i++) {
+        current = arr[i]; // Take the current element to be inserted
+        j = i - 1;       // Start comparing with the element before the current one
+
+        // Move elements of arr[0...i-1] that are greater than current
+        // to one position ahead of their current position
+        while (j >= 0 && arr[j] > current) {
+            arr[j + 1] = arr[j]; // Shift the larger element to the right
+            j = j - 1;           // Move to the next element on the left
+        }
+        arr[j + 1] = current; // Insert the current element in its correct sorted position
+    }
+
+    printf("Sorted array:\n");
+    for (i = 0; i < n; i++) {
+        printf("%d\t", arr[i]);
+    }
+    printf("\n");
+
+    return 0; // Indicate successful execution
+}

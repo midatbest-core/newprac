@@ -1,0 +1,77 @@
+#include <stdio.h>
+#include <conio.h>
+
+#define MAX 100
+#define INF 999999
+
+void merge(int a[], int start, int q, int end) {
+    int left[MAX], right[MAX];
+    int i, j, k;
+    int n1 = q - start + 1;
+    int n2 = end - q;
+
+    for(i = 0; i < n1; i++) {
+	left[i] = a[start + i];
+    }
+    for(j = 0; j < n2; j++) {
+	right[j] = a[q + 1 + j];
+    }
+
+    left[n1] = INF;
+    right[n2] = INF;
+
+    i = 0;
+    j = 0;
+
+    for(k = start; k <= end; k++) {
+	if(left[i] <= right[j]) {
+	    a[k] = left[i++];
+	} else {
+	    a[k] = right[j++];
+	}
+    }
+}
+
+void mergesort(int a[], int start, int end) {
+    if(start < end) {
+	int q = (start + end) / 2;
+	mergesort(a, start, q);
+	mergesort(a, q + 1, end);
+	merge(a, start, q, end);
+    }
+}
+
+int ksmall(int a[],int k)
+{
+
+	return a[k-1];
+}
+void main() {
+    int a[MAX], n, i,k;
+    clrscr();
+    printf("Enter the number of elements: ");
+    scanf("%d", &n);
+    printf("Enter the elements:\n");
+    for(i = 0; i < n; i++) {
+	scanf("%d", &a[i]);
+    }
+
+    mergesort(a, 0, n - 1);
+
+    printf("Sorted array:\n");
+    for(i = 0; i < n; i++) {
+	printf("%d\t", a[i]);
+    }
+    printf("Enter the value of k to find the kth smallest element");
+    scanf("%d",&k);
+
+    if(k>=1 || k<=n)
+    {
+    printf("\nThe %dth smallest elements is %d",k,ksmall(a,k));
+
+    }
+    else
+    printf("invalid value of k");
+
+    getch();
+}

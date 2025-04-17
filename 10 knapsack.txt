@@ -1,0 +1,46 @@
+1/0 KNAPSACK USING DYNAMIC PROGRAMMING 
+#include<stdio.h>
+#include<conio.h>
+void knapsack(int val[],int w[],int n,int W)
+{
+	int i,j;
+	int k[20][20];
+	for(i=0;i<=n;i++)
+	{
+		for(j=0;j<=W;j++)
+		{
+			if(i=0 || j=0)
+				k[i][j]=0;
+			else if(j<w[i])
+				k[i][j]=k[i-1][j];
+			else
+			{
+				if(k[i-1][j]>k[i-1][j-w[i]]+val[i])
+					k[i][j]=k[i-1][j];
+				else
+					k[i][j]=[k[i-1][j-w[i]]]+val[i];
+			}
+		}
+	}
+
+	printf("Maximum profit is %d",k[n][W]);
+}
+void main()
+{
+ int i,n,W;
+ int val[20],w[20];
+ clrscr();
+ printf("Enter the number of objects");
+ scanf("%d",&n);
+ printf("Enter the Maximum knapsack capacity");
+ scanf("%d",&W);
+ for(i=0;i<n;i++)
+ {
+	printf("Enter object %d - weight",i+1);
+	scanf("%d",&w[i]);
+	printf("Enter object %d - value",i+1);
+	scanf("%d",&val[i]);
+ }
+ knapsack(val,w,n,W);
+
+}

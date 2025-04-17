@@ -1,0 +1,80 @@
+GRAPH COLORING
+#include <stdio.h>
+#include <conio.h>
+
+#define MAX_VERTICES 10
+#define bool int
+#define true 1
+#define false 0
+
+int graph[MAX_VERTICES][MAX_VERTICES]; // Adjacency matrix
+int assignedColors[MAX_VERTICES]; // Stores assigned colors
+int colorOptions[MAX_VERTICES]; // Stores available color options
+int numVertices, numColors;
+
+void graphColoring(int vertex);
+bool checkVertex(int vertex, int color);
+
+void main() {
+    int i, j;
+    clrscr();
+
+    printf("Enter the number of vertices in the graph: ");
+    scanf("%d", &numVertices);
+
+    printf("Enter the adjacency matrix:\n");
+    for (i = 0; i < numVertices; i++) {
+        for (j = 0; j < numVertices; j++) {
+            scanf("%d", &graph[i][j]);
+        }
+    }
+
+    printf("Enter the number of colors available: ");
+    scanf("%d", &numColors);
+
+    printf("Enter the color options (as numbers):\n");
+    for (i = 0; i < numColors; i++) {
+        scanf("%d", &colorOptions[i]);
+    }
+
+    for (i = 0; i < numVertices; i++) {
+        assignedColors[i] = 0; // Initialize all to 0
+    }
+
+    printf("Coloring the graph...\n");
+    graphColoring(0);
+
+    getch();
+}
+
+void graphColoring(int vertex) {
+    int colorIndex;
+
+    if (vertex == numVertices) {
+        int i;
+        printf("Solution found:\n");
+        for (i = 0; i < numVertices; i++) {
+            printf("Vertex %d --> Color %d\n", i, assignedColors[i]);
+        }
+        printf("\n");
+        return;
+    }
+
+    for (colorIndex = 0; colorIndex < numColors; colorIndex++) {
+        if (checkVertex(vertex, colorOptions[colorIndex])) {
+            assignedColors[vertex] = colorOptions[colorIndex];
+            graphColoring(vertex + 1);
+            assignedColors[vertex] = 0; // Backtrack
+        }
+    }
+}
+
+bool checkVertex(int vertex, int color) {
+    int i;
+    for (i = 0; i < numVertices; i++) {
+        if (graph[vertex][i] && assignedColors[i] == color) {
+            return false;
+        }
+    }
+    return true;
+}
